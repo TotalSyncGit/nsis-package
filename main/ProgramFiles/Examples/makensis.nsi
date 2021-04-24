@@ -49,12 +49,7 @@ RequestExecutionLevel admin
 !include "Memento.nsh"
 !include "WordFunc.nsh"
 !include "Util.nsh"
-
-;--------------------------------
-;Definitions
-
-!define SHCNE_ASSOCCHANGED 0x8000000
-!define SHCNF_IDLIST 0
+!include "Integration.nsh"
 
 ;--------------------------------
 ;Configuration
@@ -213,6 +208,7 @@ ${MementoSection} "NSIS Core Files (required)" SecCore
   File ..\Include\MultiUser.nsh
   File ..\Include\VB6RunTime.nsh
   File ..\Include\Util.nsh
+  File ..\Include\Integration.nsh
   File ..\Include\WinCore.nsh
 
   SetOutPath $INSTDIR\Include\Win
@@ -296,7 +292,7 @@ ${MementoSection} "NSIS Core Files (required)" SecCore
     WriteRegStr HKCR "NSIS.Header\shell\open\command" "" 'notepad.exe "%1"'
   ${EndIf}
 
-  System::Call 'Shell32::SHChangeNotify(i ${SHCNE_ASSOCCHANGED}, i ${SHCNF_IDLIST}, p0, p0)'
+  ${NotifyShell_AssocChanged}
 
 ${MementoSectionEnd}
 
@@ -311,7 +307,8 @@ ${MementoSection} "Script Examples" SecExample
   File ..\Examples\makensis.nsi
   File ..\Examples\example1.nsi
   File ..\Examples\example2.nsi
-  File ..\Examples\viewhtml.nsi
+  File ..\Examples\install-per-user.nsi
+  File ..\Examples\install-shared.nsi
   File ..\Examples\waplugin.nsi
   File ..\Examples\bigtest.nsi
   File ..\Examples\primes.nsi
@@ -321,7 +318,6 @@ ${MementoSection} "Script Examples" SecExample
   File ..\Examples\languages.nsi
   File ..\Examples\Library.nsi
   File ..\Examples\VersionInfo.nsi
-  File ..\Examples\UserVars.nsi
   File ..\Examples\LogicLib.nsi
   File ..\Examples\silent.nsi
   File ..\Examples\StrFunc.nsi
@@ -850,8 +846,8 @@ Section -post
   WriteRegDWORD HKLM "${REG_UNINST_KEY}" "VersionMinor" "${VER_MINOR}" ; Required by WACK
 !endif
   WriteRegStr HKLM "${REG_UNINST_KEY}" "Publisher" "Nullsoft and Contributors" ; Required by WACK
-  WriteRegStr HKLM "${REG_UNINST_KEY}" "URLInfoAbout" "http://nsis.sourceforge.net/"
-  WriteRegStr HKLM "${REG_UNINST_KEY}" "HelpLink" "http://nsis.sourceforge.net/Support"
+  WriteRegStr HKLM "${REG_UNINST_KEY}" "URLInfoAbout" "https://nsis.sourceforge.io/"
+  WriteRegStr HKLM "${REG_UNINST_KEY}" "HelpLink" "https://nsis.sourceforge.io/Support"
   WriteRegDWORD HKLM "${REG_UNINST_KEY}" "NoModify" "1"
   WriteRegDWORD HKLM "${REG_UNINST_KEY}" "NoRepair" "1"
   ${MakeARPInstallDate} $1
@@ -1038,7 +1034,7 @@ Function ShowReleaseNotes
   ${If} ${FileExists} $0
     Exec '"$0" mk:@MSITStore:$INSTDIR\NSIS.chm::/SectionF.1.html'
   ${Else}
-    ExecShell "" "http://nsis.sourceforge.net/Docs/AppendixF.html#F.1"
+    ExecShell "" "https://nsis.sourceforge.io/Docs/AppendixF.html#F.1"
   ${EndIf}
 FunctionEnd
 
@@ -1071,7 +1067,7 @@ Section Uninstall
   !insertmacro AssocDeleteFileExtAndProgId HKLM ".nsi" "NSIS.Script"
   !insertmacro AssocDeleteFileExtAndProgId HKLM ".nsh" "NSIS.Header"
 
-  System::Call 'Shell32::SHChangeNotify(i ${SHCNE_ASSOCCHANGED}, i ${SHCNF_IDLIST}, p0, p0)'
+  ${NotifyShell_AssocChanged}
 
   DeleteRegKey HKLM "${REG_UNINST_KEY}"
   DeleteRegKey HKLM "Software\NSIS"
