@@ -41,6 +41,9 @@ jobs:
     - name: Check in the result
       run: git add . && git commit -m "Checking in nuget"
 
+    - name: Push
+      run: git push
+
 
 #    - name: Restore dependencies
 #      run: nuget restore $SOLUTION
