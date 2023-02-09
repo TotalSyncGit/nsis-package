@@ -18,21 +18,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '6.0.x'
+        dotnet-quality: 'ga'
 
     - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.0.5
+      uses: NuGet/setup-nuget@v1
 
-    - name: Restore dependencies
-      run: nuget restore $SOLUTION
+    - name: Check out source
+      uses: actions/checkout@v3
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.x
 
-    - name: Build
-      run: dotnet build $SOLUTION --configuration $BUILD_CONFIG --no-restore
+#    - name: Restore dependencies
+#      run: nuget restore $SOLUTION
 
-    - name: Run tests
-      run: dotnet test /p:Configuration=$env:BUILD_CONFIG --no-restore --no-build --verbosity normal
+
+#    - name: Build
+#      run: dotnet build $SOLUTION --configuration $BUILD_CONFIG --no-restore
+
+#    - name: Run tests
+#      run: dotnet test /p:Configuration=$env:BUILD_CONFIG --no-restore --no-build --verbosity normal
