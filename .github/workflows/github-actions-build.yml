@@ -31,7 +31,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Build Nuget Package
-      run: nuget pack -Properties NoWarn=NU5100 nsis.nuspec
+      run: cd main && nuget pack -Properties NoWarn=NU5100 nsis.nuspec
 
     - name: Check in the result
       run: git add . && git commit -m "Checking in nuget"
