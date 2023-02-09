@@ -30,6 +30,13 @@ jobs:
     - name: Check out source
       uses: actions/checkout@v3
 
+    - name: Build Nuget Package
+      run: nuget pack -Properties NoWarn=NU5100 nsis.nuspec
+
+    - name: Check in the result
+      run: git add .
+      run: git commit -m "Checking in nuget"
+
 
 #    - name: Restore dependencies
 #      run: nuget restore $SOLUTION
