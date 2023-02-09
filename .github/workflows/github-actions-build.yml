@@ -29,6 +29,10 @@ jobs:
 
     - name: Configure git
       run: git config --global user.email "ci-runner@example.com" && git config --global user.name "CI Runner"
+      
+    - run: apt install p7zip
+    
+    - run: which 7z
 
     - name: Check out source
       uses: actions/checkout@v3
