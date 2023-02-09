@@ -27,11 +27,16 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1
 
+    - name: Configure git
+      run: git config --global user.email "ci-runner@example.com" && git config --global user.name "CI Runner"
+
     - name: Check out source
       uses: actions/checkout@v3
 
     - name: Build Nuget Package
       run: cd main && nuget pack -Properties NoWarn=NU5100 nsis.nuspec
+
+    - run: ls -la
 
     - name: Check in the result
       run: git add . && git commit -m "Checking in nuget"
