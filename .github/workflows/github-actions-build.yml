@@ -37,6 +37,9 @@ jobs:
     - name: Check out source
       uses: actions/checkout@v3
 
+    - name: Run the C# build script
+      run: dotnet run --project main/BuildScript
+
     - name: Build Nuget Package
       run: cd main && nuget pack -Properties NoWarn=NU5100 nsis.nuspec
 
