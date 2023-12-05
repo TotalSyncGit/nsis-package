@@ -13,7 +13,7 @@
 		
         <licenseUrl>https://nsis.sourceforge.io/License</licenseUrl>
         
-        <iconUrl>http://github.com/contoso/UsefulStuff/nuget_icon.png</iconUrl>
+        <icon>icon.png</icon>
 
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
 
@@ -40,6 +40,7 @@ We needed NSIS in the form of a Nuget package (to use with the Cake build system
 
     <files>
         <file src="readme.md" target="" />
+        <file src="icon.png" target="" />
         <file src="ProgramFiles\**" target="NSIS" />
     </files>
 </package>
