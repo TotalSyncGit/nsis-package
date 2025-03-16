@@ -11,7 +11,7 @@
         
         <projectUrl>https://nsis.sourceforge.io/</projectUrl>
 		
-        <licenseUrl>https://nsis.sourceforge.io/License</licenseUrl>
+        <license type="file">NSIS\COPYING</license>
         
         <icon>icon.png</icon>
 
@@ -19,6 +19,8 @@
 
         <summary>NSIS as a Nuget package.</summary>
 		
+        <readme>readme.md</readme>
+
         <description>NSIS is a powerful open-source tool for creating installers for Windows.
 
 Designed to be as small and flexible as possible and is therefore very suitable for internet distribution.
